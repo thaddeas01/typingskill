@@ -26,40 +26,33 @@ public class AuthConfiguration {
     // ロールを複数追加することもできる
     UserDetails user1 = users
         .username("user1")
-        .password("$2y$10$ngxCDmuVK1TaGchiYQfJ1OAKkd64IH6skGsNw1sLabrTICOHPxC0e")
-        .roles("USER", "MANAGER")
+        .password("$2y$10$vhGTHZEfSXAPXdfqIJbijeaq.GIkhk/UZMD/L9k90Rd6YzZ/fM30a")
+        .roles("USER")
         .build();
     UserDetails user2 = users
         .username("user2")
-        .password("$2y$10$ngxCDmuVK1TaGchiYQfJ1OAKkd64IH6skGsNw1sLabrTICOHPxC0e")
+        .password("$2y$10$vhGTHZEfSXAPXdfqIJbijeaq.GIkhk/UZMD/L9k90Rd6YzZ/fM30a")
         .roles("USER")
         .build();
+    UserDetails user3 = users
+        .username("user3")
+        .password("$2y$10$vhGTHZEfSXAPXdfqIJbijeaq.GIkhk/UZMD/L9k90Rd6YzZ/fM30a")
+        .roles("USER")
+        .build();
+    UserDetails user4 = users
+        .username("user4")
+        .password("$2y$10$vhGTHZEfSXAPXdfqIJbijeaq.GIkhk/UZMD/L9k90Rd6YzZ/fM30a")
+        .roles("USER")
+        .build();
+
     UserDetails admin = users
         .username("admin")
         .password("$2y$10$ngxCDmuVK1TaGchiYQfJ1OAKkd64IH6skGsNw1sLabrTICOHPxC0e")
         .roles("ADMIN")
         .build();
-    // $ sshrun htpasswd -nbBC 10 customer1 p@ss
-    UserDetails customer1 = users
-        .username("customer1")
-        .password("$2y$10$ngxCDmuVK1TaGchiYQfJ1OAKkd64IH6skGsNw1sLabrTICOHPxC0e")
-        .roles("CUSTOMER")
-        .build();
-    // $ sshrun htpasswd -nbBC 10 customer2 p@ss
-    UserDetails customer2 = users
-        .username("customer2")
-        .password("$2y$10$ngxCDmuVK1TaGchiYQfJ1OAKkd64IH6skGsNw1sLabrTICOHPxC0e")
-        .roles("CUSTOMER")
-        .build();
-    // $ sshrun htpasswd -nbBC 10 seller p@ss
-    UserDetails seller = users
-        .username("seller")
-        .password("$2y$10$ngxCDmuVK1TaGchiYQfJ1OAKkd64IH6skGsNw1sLabrTICOHPxC0e")
-        .roles("SELLER")
-        .build();
 
     // 生成したユーザをImMemoryUserDetailsManagerに渡す（いくつでも良い）
-    return new InMemoryUserDetailsManager(user1, user2, admin, customer1, customer2, seller);
+    return new InMemoryUserDetailsManager(user1, user2, user3, user4, admin);
   }
 
   /**
@@ -73,12 +66,12 @@ public class AuthConfiguration {
   @Bean
   public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
     // Spring Securityのフォームを利用してログインを行う（自前でログインフォームを用意することも可能）
-    // http.formLogin();
+    http.formLogin();
     // http://localhost:8000/sample3 で始まるURLへのアクセスはログインが必要
     // mvcMatchers().authenticated()がmvcMatchersに指定されたアクセス先に認証処理が必要であることを示す
     // authenticated()の代わりにpermitAll()と書くと認証不要となる
     http.authorizeHttpRequests()
-        .mvcMatchers("/h2-console/**").permitAll();
+        .mvcMatchers("/sample/**").authenticated();
     // http.logout().logoutSuccessUrl("/"); // ログアウト時は "http://localhost:8000/" に戻る
     /**
      * 以下2行はh2-consoleを利用するための設定なので，開発が完了したらコメントアウトすることが望ましい
