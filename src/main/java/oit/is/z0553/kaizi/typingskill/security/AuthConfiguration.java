@@ -71,7 +71,7 @@ public class AuthConfiguration {
     // mvcMatchers().authenticated()がmvcMatchersに指定されたアクセス先に認証処理が必要であることを示す
     // authenticated()の代わりにpermitAll()と書くと認証不要となる
     http.authorizeHttpRequests()
-        .mvcMatchers("/sample/**").authenticated();
+        .mvcMatchers("/start/**").authenticated();
     // http.logout().logoutSuccessUrl("/"); // ログアウト時は "http://localhost:8000/" に戻る
     /**
      * 以下2行はh2-consoleを利用するための設定なので，開発が完了したらコメントアウトすることが望ましい

@@ -1,0 +1,33 @@
+<head>
+  <title>Game Application by Pentagon</title>
+</head>
+<style>
+  h1 {
+    font-size: 3em;
+    font-family: "Brush Script m7";
+  }
+</style>
+<script>
+  function mouseOver() {
+    document.getElementById("color").style.color = "red";
+  }
+  function mouseOver1() {
+    document.getElementById("color1").style.color = "red";
+  }
+  function mouseOut() {
+    document.getElementById("color").style.color = "black";
+  }
+  function mouseOut1() {
+    document.getElementById("color1").style.color = "black";
+  }
+</script>
+
+<body>
+  <h1>Hello, [[${user}]]</h1>
+  <br>
+  <button href="/single" id="color" onmouseover="mouseOver()" onmouseout="mouseOut()">Single Player</button>
+  <br>
+  <button href="/multi" id="color1" onmouseover="mouseOver1()" onmouseout="mouseOut1()">MultiPlayer</button>
+  <br>
+  <a href="/logout">LogOut</a>
+</body>
