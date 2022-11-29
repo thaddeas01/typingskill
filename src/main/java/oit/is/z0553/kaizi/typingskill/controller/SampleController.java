@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import java.security.Principal;
 
 /**
  * Sample21Controller
@@ -18,9 +19,11 @@ public class SampleController {
   /**
    * sample21というGETリクエストがあったら sample21()を呼び出し，sample21.htmlを返す
    */
-  @GetMapping("/sample")
-  public String sample() {
-    return "sample.html";
+  @GetMapping("/start")
+  public String sample(ModelMap model, Principal prin) {
+    String loginUser = prin.getName();
+    model.addAttribute("user", loginUser);
+    return "start.html";
   }
 
   @GetMapping("/sample24")
