@@ -26,6 +26,11 @@ public class SampleController {
     return "start.html";
   }
 
+  @GetMapping("/single")
+  public String single() {
+    return "single.html";
+  }
+
   @GetMapping("/sample24")
   public String sample24() {
     return "sample24.html";
@@ -89,5 +94,6 @@ public class SampleController {
     model.addAttribute("kakeruResult", kakeruResult);
     return "sample24.html";
   }
+
 
 }
