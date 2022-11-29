@@ -13,7 +13,6 @@ import oit.is.z0553.kaizi.typingskill.model.Vocab;
 
 import java.util.Random;
 
-
 @Controller
 public class SampleController {
 
@@ -25,6 +24,11 @@ public class SampleController {
     String loginUser = prin.getName();
     model.addAttribute("user", loginUser);
     return "start.html";
+  }
+
+  @GetMapping("/score")
+  public String score() {
+    return "score.html";
   }
 
   @GetMapping("/single")
