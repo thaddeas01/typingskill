@@ -106,10 +106,6 @@
 
   startTimer();
 
-  function onTimesUp() {
-    clearInterval(timerInterval);
-  }
-
   function startTimer() {
     timerInterval = setInterval(() => {
       timePassed = timePassed += 1;
@@ -121,7 +117,10 @@
       setRemainingPathColor(timeLeft);
 
       if (timeLeft === 0) {
-        onTimesUp();
+        clearInterval(timerInterval);
+        setTimeout(function () {
+          location.href = "./score"
+        }, 0);
       }
     }, 1000);
   }
