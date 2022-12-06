@@ -47,9 +47,26 @@ public class SampleController {
     Random rad = new Random();
     int mistake = miss;
     mistake++;
+    if (mistake >= 3) {
+      return "score.html";
+    }
     String spell = vocabmapper.selectById(rad.nextInt(250));
     model.addAttribute("spell", spell);
     model.addAttribute("miss", mistake);
     return ("single.html");
+  }
+
+  @GetMapping("/timeout")
+  public String timeout(ModelMap model, @RequestParam int miss) {
+    Random rad = new Random();
+    int mistake = miss;
+    mistake++;
+    if (mistake >= 3) {
+      return "score.html";
+    }
+    String spell = vocabmapper.selectById(rad.nextInt(250));
+    model.addAttribute("spell", spell);
+    model.addAttribute("miss", mistake);
+    return "single.html";
   }
 }

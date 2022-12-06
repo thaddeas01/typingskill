@@ -65,7 +65,7 @@
     font-size: 48px;
   }
 </style>
-<script>
+<script th:inline="javascript">
   const FULL_DASH_ARRAY = 300;
   const WARNING_THRESHOLD = 4;
   const ALERT_THRESHOLD = 2;
@@ -89,6 +89,7 @@
   let timeLeft = TIME_LIMIT;
   let timerInterval = null;
   let remainingPathColor = COLOR_CODES.info.color;
+  var miss = [[${ miss }]];
 
   document.getElementById("app").innerHTML = `
 <div class="base-timer">
@@ -129,7 +130,7 @@
       if (timeLeft === 0) {
         clearInterval(timerInterval);
         setTimeout(function () {
-          location.href = "./score"
+          location.href = "/timeout?miss=" + miss
         }, 0);
       }
     }, 1000);
