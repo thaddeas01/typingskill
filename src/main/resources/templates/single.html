@@ -1,6 +1,16 @@
-<div id="app"></div>
+<head>
+  <title>Game Application by Pentagon</title>
+</head>
 
-<p> [[${spell}]]</p>
+<body>
+  <div id="app"></div>
+
+  <p> [[${spell}]]</p>
+  <p> [[${miss}]]</p>
+  <form th:action="@{/hantei(prob=${spell},miss=${miss})}" method="post">
+    <input type="text" name="answer">
+  </form>
+</body>
 <style>
   .base-timer {
     position: relative;
@@ -56,9 +66,9 @@
   }
 </style>
 <script>
-  const FULL_DASH_ARRAY = 283;
-  const WARNING_THRESHOLD = 10;
-  const ALERT_THRESHOLD = 5;
+  const FULL_DASH_ARRAY = 300;
+  const WARNING_THRESHOLD = 4;
+  const ALERT_THRESHOLD = 2;
 
   const COLOR_CODES = {
     info: {
@@ -74,7 +84,7 @@
     }
   };
 
-  const TIME_LIMIT = 60;
+  const TIME_LIMIT = 5;
   let timePassed = 0;
   let timeLeft = TIME_LIMIT;
   let timerInterval = null;
