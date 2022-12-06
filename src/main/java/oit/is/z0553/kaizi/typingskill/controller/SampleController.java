@@ -35,9 +35,21 @@ public class SampleController {
   public String single(ModelMap model) {
 
     Random rad = new Random();
-
+    int mistake = 0;
     String spell = vocabmapper.selectById(rad.nextInt(250));
     model.addAttribute("spell", spell);
+    model.addAttribute("miss", mistake);
     return "single.html";
+  }
+
+  @PostMapping("/hantei")
+  public String hantei(ModelMap model, @RequestParam String prob, @RequestParam int miss) {
+    Random rad = new Random();
+    int mistake = miss;
+    mistake++;
+    String spell = vocabmapper.selectById(rad.nextInt(250));
+    model.addAttribute("spell", spell);
+    model.addAttribute("miss", mistake);
+    return ("single.html");
   }
 }
