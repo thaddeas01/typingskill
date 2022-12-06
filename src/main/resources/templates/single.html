@@ -7,7 +7,8 @@
 
   <p> [[${spell}]]</p>
   <p> [[${miss}]]</p>
-  <form th:action="@{/hantei(prob=${spell},miss=${miss})}" method="post">
+  <p> [[${score}]]</p>
+  <form th:action="@{/hantei(prob=${spell},miss=${miss},score=${score})}" method="post">
     <input type="text" name="answer">
   </form>
 </body>
@@ -90,6 +91,7 @@
   let timerInterval = null;
   let remainingPathColor = COLOR_CODES.info.color;
   var miss = [[${ miss }]];
+  var score = [[${ score }]];
 
   document.getElementById("app").innerHTML = `
 <div class="base-timer">
@@ -130,7 +132,7 @@
       if (timeLeft === 0) {
         clearInterval(timerInterval);
         setTimeout(function () {
-          location.href = "/timeout?miss=" + miss
+          location.href = "/timeout?miss=" + miss + "&score=" + score
         }, 0);
       }
     }, 1000);
