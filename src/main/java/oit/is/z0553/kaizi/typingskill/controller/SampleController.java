@@ -36,28 +36,36 @@ public class SampleController {
 
     Random rad = new Random();
     int mistake = 0;
+    int point = 0;
     String spell = vocabmapper.selectById(rad.nextInt(250));
     model.addAttribute("spell", spell);
     model.addAttribute("miss", mistake);
+    model.addAttribute("score", point);
     return "single.html";
   }
 
   @PostMapping("/hantei")
-  public String hantei(ModelMap model, @RequestParam String prob, @RequestParam int miss) {
+  public String hantei(ModelMap model, @RequestParam String prob, @RequestParam int miss, @RequestParam int score, @RequestParam String answer) {
     Random rad = new Random();
     int mistake = miss;
-    mistake++;
-    if (mistake >= 3) {
-      return "score.html";
+    int point = score;
+    if (prob.equals(answer)) {
+      point++;
+    } else {
+      mistake++;
+      if (mistake >= 3) {
+        return "score.html";
+      }
     }
     String spell = vocabmapper.selectById(rad.nextInt(250));
     model.addAttribute("spell", spell);
     model.addAttribute("miss", mistake);
+    model.addAttribute("score", point);
     return ("single.html");
   }
 
   @GetMapping("/timeout")
-  public String timeout(ModelMap model, @RequestParam int miss) {
+  public String timeout(ModelMap model, @RequestParam int miss, @RequestParam int score) {
     Random rad = new Random();
     int mistake = miss;
     mistake++;
@@ -67,6 +75,7 @@ public class SampleController {
     String spell = vocabmapper.selectById(rad.nextInt(250));
     model.addAttribute("spell", spell);
     model.addAttribute("miss", mistake);
+    model.addAttribute("score", score);
     return "single.html";
   }
 }
