@@ -9,7 +9,7 @@
   <p> [[${miss}]]</p>
   <p> [[${score}]]</p>
   <form th:action="@{/hantei(prob=${spell},miss=${miss},score=${score})}" method="post">
-    <input type="text" name="answer">
+    <input type="text" name="answer" id="firstinput">
   </form>
 </body>
 <style>
@@ -116,7 +116,7 @@
   )}</span>
 </div>
 `;
-
+  document.getElementById('firstinput').focus();
   startTimer();
 
   function startTimer() {
