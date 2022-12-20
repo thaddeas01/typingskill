@@ -13,6 +13,7 @@ import oit.is.z0553.kaizi.typingskill.model.VocabMapper;
 import oit.is.z0553.kaizi.typingskill.model.Vocab;
 import oit.is.z0553.kaizi.typingskill.model.RankingMapper;
 import oit.is.z0553.kaizi.typingskill.model.Ranking;
+import oit.is.z0553.kaizi.typingskill.model.Room;
 
 import java.util.ArrayList;
 
@@ -26,6 +27,9 @@ public class SampleController {
 
   @Autowired
   private VocabMapper vocabmapper;
+
+  @Autowired
+  private Room room;
 
   @GetMapping("/start")
   public String sample(ModelMap model, Principal prin) {
@@ -112,4 +116,13 @@ public class SampleController {
     model.addAttribute("score", score);
     return "single.html";
   }
+
+    @GetMapping("/multi")
+    public String multi(ModelMap model, Principal prin) {
+      String loginUser = prin.getName();
+      this.room.addUser(loginUser);
+      model.addAttribute("room", this.room);
+
+      return "multi.html";
+    }
 }
