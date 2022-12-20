@@ -19,7 +19,7 @@
         <span th:if="${rank}">
           <!--クエリパラメータでIDを渡して購入処理を実行する-->
           <tr th:each="ranking,stat:${rank}">
-            <td>[[${stat.index}]]</td>
+            <td>[[${stat.index}+1]]</td>
             <td>[[${ranking.name}]]</td>
             <td>[[${ranking.score}]]</td>
           </tr>
@@ -28,5 +28,5 @@
     </table>
   </div>
   <br>
-  <button class="logout"><a href="/logout">LogOut</a></button>
+  <a href="/start"><button>Back To Main Menu</button></a>
 </body>

@@ -10,7 +10,7 @@ import org.apache.ibatis.annotations.Select;
 @Mapper
 public interface RankingMapper {
 
-  @Select("SELECT ID, NAME FROM RANKING")
+  @Select("SELECT ID, NAME, SCORE FROM RANKING order by SCORE desc")
   ArrayList<Ranking> selectAllRanking();
 
   @Select("SELECT vocab from vocabulary where id = #{id}")

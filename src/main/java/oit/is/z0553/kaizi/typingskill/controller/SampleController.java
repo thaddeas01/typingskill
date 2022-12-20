@@ -1,5 +1,6 @@
 package oit.is.z0553.kaizi.typingskill.controller;
 
+import java.util.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -33,15 +34,6 @@ public class SampleController {
     return "start.html";
   }
 
-  @GetMapping("/score")
-  public String score(ModelMap model, Principal prin, @RequestParam int score) {
-    String loginUser = prin.getName();
-    int point = score;
-    model.addAttribute("user", loginUser);
-    model.addAttribute("score", point);
-    return "score.html";
-  }
-
   @GetMapping("/single")
   public String single(ModelMap model) {
 
@@ -58,22 +50,33 @@ public class SampleController {
   @PostMapping("/hantei")
   public String hantei(ModelMap model, @RequestParam String prob, @RequestParam int miss, @RequestParam int score,
       @RequestParam String answer, Principal prin) {
-    ArrayList<Ranking> rank = rMapper.selectAllRanking();
     Random rad = new Random();
     int mistake = miss;
     int point = score;
+    String username = prin.getName();
     if (prob.equals(answer)) {
       point++;
     } else {
       mistake++;
       if (mistake >= 3) {
-        model.addAttribute("user", prin.getName());
+        Ranking addrank = new Ranking();
+        addrank.setName(username);
+        addrank.setScore(point);
+        model.addAttribute("user", username);
         model.addAttribute("score", point);
+        try {
+          rMapper.insertRank(addrank);
+        } catch (RuntimeException e) {
+          System.out.println(e.getMessage());
+        }
+        ArrayList<Ranking> rank = rMapper.selectAllRanking();
         model.addAttribute("rank", rank);
         return "score.html";
       }
     }
-    String spell = vocabmapper.selectById(rad.nextInt(250));
+
+    String spell = vocabmapper.selectById(rad.nextInt(
+        250));
     model.addAttribute("spell", spell);
     model.addAttribute("miss", mistake);
     model.addAttribute("score", point);
@@ -83,7 +86,6 @@ public class SampleController {
   @GetMapping("/timeout")
   public String timeout(ModelMap model, @RequestParam int miss, @RequestParam int score,
       Principal prin) {
-    ArrayList<Ranking> rank = rMapper.selectAllRanking();
     Random rad = new Random();
     int mistake = miss;
     int point = score;
@@ -95,12 +97,13 @@ public class SampleController {
       addrank.setScore(point);
       model.addAttribute("user", username);
       model.addAttribute("score", point);
-      model.addAttribute("rank", rank);
       try {
         rMapper.insertRank(addrank);
       } catch (RuntimeException e) {
         System.out.println(e.getMessage());
       }
+      ArrayList<Ranking> rank = rMapper.selectAllRanking();
+      model.addAttribute("rank", rank);
       return "score.html";
     }
     String spell = vocabmapper.selectById(rad.nextInt(250));
