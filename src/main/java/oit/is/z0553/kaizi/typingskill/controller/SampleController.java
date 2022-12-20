@@ -10,11 +10,18 @@ import org.springframework.web.bind.annotation.RequestParam;
 import java.security.Principal;
 import oit.is.z0553.kaizi.typingskill.model.VocabMapper;
 import oit.is.z0553.kaizi.typingskill.model.Vocab;
+import oit.is.z0553.kaizi.typingskill.model.RankingMapper;
+import oit.is.z0553.kaizi.typingskill.model.Ranking;
+
+import java.util.ArrayList;
 
 import java.util.Random;
 
 @Controller
 public class SampleController {
+
+  @Autowired
+  RankingMapper rMapper;
 
   @Autowired
   private VocabMapper vocabmapper;
@@ -35,7 +42,6 @@ public class SampleController {
     return "score.html";
   }
 
-
   @GetMapping("/single")
   public String single(ModelMap model) {
 
@@ -50,8 +56,9 @@ public class SampleController {
   }
 
   @PostMapping("/hantei")
-  public String hantei(ModelMap model, @RequestParam String prob, @RequestParam int miss, @RequestParam int score, @RequestParam String answer,
-      Principal prin) {
+  public String hantei(ModelMap model, @RequestParam String prob, @RequestParam int miss, @RequestParam int score,
+      @RequestParam String answer, Principal prin) {
+    ArrayList<Ranking> rank = rMapper.selectAllRanking();
     Random rad = new Random();
     int mistake = miss;
     int point = score;
@@ -62,6 +69,7 @@ public class SampleController {
       if (mistake >= 3) {
         model.addAttribute("user", prin.getName());
         model.addAttribute("score", point);
+        model.addAttribute("rank", rank);
         return "score.html";
       }
     }
@@ -73,7 +81,9 @@ public class SampleController {
   }
 
   @GetMapping("/timeout")
-  public String timeout(ModelMap model, @RequestParam int miss, @RequestParam int score, Principal prin) {
+  public String timeout(ModelMap model, @RequestParam int miss, @RequestParam int score,
+      Principal prin) {
+    ArrayList<Ranking> rank = rMapper.selectAllRanking();
     Random rad = new Random();
     int mistake = miss;
     int point = score;
@@ -81,6 +91,7 @@ public class SampleController {
     if (mistake >= 3) {
       model.addAttribute("user", prin.getName());
       model.addAttribute("score", point);
+      model.addAttribute("rank", rank);
       return "score.html";
     }
     String spell = vocabmapper.selectById(rad.nextInt(250));

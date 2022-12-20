@@ -8,7 +8,10 @@ import org.apache.ibatis.annotations.Options;
 import org.apache.ibatis.annotations.Select;
 
 @Mapper
-public interface VocabMapper {
+public interface RankingMapper {
+
+  @Select("SELECT ID, NAME FROM RANKING")
+  ArrayList<Ranking> selectAllRanking();
 
   @Select("SELECT vocab from vocabulary where id = #{id}")
   String selectById(int id);

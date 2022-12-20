@@ -8,5 +8,25 @@
 <body>
   <h1> [[${user}]] Score : [[${score}]]</h1>
   <br>
+  <div>
+    <table border="1">
+      <thead>
+        <th>順位</th>
+        <th>名前</th>
+        <th>スコア</th>
+      </thead>
+      <tbody id="ranking_list">
+        <span th:if="${rank}">
+          <!--クエリパラメータでIDを渡して購入処理を実行する-->
+          <tr th:each="ranking,stat:${rank}">
+            <td>[[${stat.index}]]</td>
+            <td>[[${ranking.name}]]</td>
+            <td>[[${ranking.score}]]</td>
+          </tr>
+        </span>
+      </tbody>
+    </table>
+  </div>
+  <br>
   <button class="logout"><a href="/logout">LogOut</a></button>
 </body>
