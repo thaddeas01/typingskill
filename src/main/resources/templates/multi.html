@@ -1,0 +1,17 @@
+<head>
+  <title>Game Application by Pentagon</title>
+</head>
+
+<body>
+  <div th:if="${room}">
+    DI利用
+    <ul>
+      <!--roomオブジェクトのroomNoというフィールドを指定している-->
+      <li>RoomNo:[[${room.roomNo}]]</li>
+      <!--eachは所謂for each．この場合roomオブジェクトのusersフィールドにあるすべてのデータを一通り表示する
+      thが指定されているので[]が不要になる-->
+      <li th:each="user : ${room.users}">[[${user}]]</li>
+    </ul>
+  </div>
+
+</body>
