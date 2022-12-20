@@ -1,7 +1,12 @@
-INSERT INTO users (userName) VALUES ('いけだ');
-INSERT INTO users (userName) VALUES ('よしい');
+INSERT INTO users (userName) VALUES ('イケダ');
 INSERT INTO users (userName) VALUES ('シェム');
-INSERT INTO ranking (userName, score) VALUES ('いけだ','100');
+INSERT INTO users (userName) VALUES ('タカハシ');
+INSERT INTO users (userName) VALUES ('ヨシイ');
+
+INSERT INTO ranking (name, score) VALUES ('イケダ','0');
+INSERT INTO ranking (name, score) VALUES ('シェム','0');
+INSERT INTO ranking (name, score) VALUES ('タカハシ','0');
+INSERT INTO ranking (name, score) VALUES ('ヨシイ','0');
 
 INSERT INTO vocabulary (vocab) VALUES ('survey');
 INSERT INTO vocabulary (vocab) VALUES ('interview');

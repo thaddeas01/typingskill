@@ -7,6 +7,8 @@ CREATE TABLE vocabulary (
     vocab VARCHAR NOT NULL
 );
 CREATE TABLE ranking (
-    userName VARCHAR NOT NULL PRIMARY KEY,
+    id IDENTITY,
+    /*userName VARCHAR NOT NULL PRIMARY KEY,*/
+    name VARCHAR NOT NULL,
     score INT NOT NULL
 );
