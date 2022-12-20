@@ -87,11 +87,20 @@ public class SampleController {
     Random rad = new Random();
     int mistake = miss;
     int point = score;
+    String username = prin.getName();
     mistake++;
     if (mistake >= 3) {
-      model.addAttribute("user", prin.getName());
+      Ranking addrank = new Ranking();
+      addrank.setName(username);
+      addrank.setScore(point);
+      model.addAttribute("user", username);
       model.addAttribute("score", point);
       model.addAttribute("rank", rank);
+      try {
+        rMapper.insertRank(addrank);
+      } catch (RuntimeException e) {
+        System.out.println(e.getMessage());
+      }
       return "score.html";
     }
     String spell = vocabmapper.selectById(rad.nextInt(250));

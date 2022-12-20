@@ -16,8 +16,8 @@ public interface RankingMapper {
   @Select("SELECT vocab from vocabulary where id = #{id}")
   String selectById(int id);
 
-  @Insert("INSERT INTO ranking (userName,score) VALUES (#{userName},#{score});")
+  @Insert("INSERT INTO ranking (name,score) VALUES (#{name},#{score});")
   @Options(useGeneratedKeys = true, keyColumn = "id", keyProperty = "id")
-  void insertRank(Vocab vocab);
+  void insertRank(Ranking addrank);
 
 }

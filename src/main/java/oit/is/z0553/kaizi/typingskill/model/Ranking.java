@@ -10,8 +10,7 @@ public class Ranking {
 
   }
 
-  public Ranking(int id2, String name2, int score2) {
-    this.id = id2;
+  public Ranking( String name2, int score2) {
     this.name = name2;
     this.score = score2;
   }
