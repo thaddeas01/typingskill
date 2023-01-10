@@ -4,6 +4,7 @@ import java.util.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -13,7 +14,8 @@ import oit.is.z0553.kaizi.typingskill.model.VocabMapper;
 import oit.is.z0553.kaizi.typingskill.model.Vocab;
 import oit.is.z0553.kaizi.typingskill.model.RankingMapper;
 import oit.is.z0553.kaizi.typingskill.model.Ranking;
-import oit.is.z0553.kaizi.typingskill.model.Room;
+import oit.is.z0553.kaizi.typingskill.service.Vocabsync;
+import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
 
 import java.util.ArrayList;
 
@@ -29,7 +31,7 @@ public class SampleController {
   private VocabMapper vocabmapper;
 
   @Autowired
-  private Room room;
+  Vocabsync vocabsync;
 
   @GetMapping("/start")
   public String sample(ModelMap model, Principal prin) {
@@ -117,12 +119,26 @@ public class SampleController {
     return "single.html";
   }
 
-    @GetMapping("/multi")
-    public String multi(ModelMap model, Principal prin) {
-      String loginUser = prin.getName();
-      this.room.addUser(loginUser);
-      model.addAttribute("room", this.room);
+  @GetMapping("/changedb")
+  public String changedb(ModelMap model) {
+    final ArrayList<Vocab> vocablist = vocabsync.syncShowVocabList();
+    model.addAttribute("vocab", vocablist);
+    return "multi.html";
+  }
 
-      return "multi.html";
-    }
+  @GetMapping("/deletevoc")
+  @Transactional
+  public String deletevoc(@RequestParam Integer id, ModelMap model) {
+    final ArrayList<Vocab> vocablist = vocabsync.syncShowVocabList();
+    model.addAttribute("vocab", vocablist);
+
+    return "multi.html";
+  }
+
+  @GetMapping("/sync")
+  public SseEmitter sync() {
+    final SseEmitter sseEmitter = new SseEmitter();
+    this.vocabsync.asyncShowVocabList(sseEmitter);
+    return sseEmitter;
+  }
 }
