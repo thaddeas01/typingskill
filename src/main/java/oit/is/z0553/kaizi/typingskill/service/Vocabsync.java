@@ -14,6 +14,7 @@ import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
 import oit.is.z0553.kaizi.typingskill.model.VocabMapper;
 import oit.is.z0553.kaizi.typingskill.model.Vocab;
 
+
 @Service
 public class Vocabsync {
   boolean dbUpdated = false;
@@ -21,21 +22,14 @@ public class Vocabsync {
   private final Logger logger = LoggerFactory.getLogger(Vocabsync.class);
 
   @Autowired
-  VocabMapper fMapper;
+  VocabMapper vMapper;
 
-  /**
-   * 購入対象の果物IDの果物をDBから削除し，購入対象の果物オブジェクトを返す
-   *
-   * @param id 購入対象の果物のID
-   * @return 購入対象の果物のオブジェクトを返す
-   */
   @Transactional
-  public String syncBuyFruits(int id) {
-    // 削除対象のフルーツを取得
-    String vocab = fMapper.selectById(id);
+  public Vocab syncDeleteVocabs(int id) {
+    Vocab vocab = vMapper.selectById(id);
 
     // 削除
-    fMapper.deleteById(id);
+    vMapper.deleteById(id);
 
     // 非同期でDB更新したことを共有する際に利用する
     this.dbUpdated = true;
@@ -44,14 +38,10 @@ public class Vocabsync {
   }
 
   public ArrayList<Vocab> syncShowVocabList() {
-    return fMapper.selectAllVocab();
+    return vMapper.selectAllVocab();
   }
 
-  /**
-   * dbUpdatedがtrueのときのみブラウザにDBからフルーツリストを取得して送付する
-   *
-   * @param emitter
-   */
+
   @Async
   public void asyncShowVocabList(SseEmitter emitter) {
     dbUpdated = true;

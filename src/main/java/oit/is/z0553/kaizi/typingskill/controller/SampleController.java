@@ -15,7 +15,6 @@ import oit.is.z0553.kaizi.typingskill.model.Vocab;
 import oit.is.z0553.kaizi.typingskill.model.RankingMapper;
 import oit.is.z0553.kaizi.typingskill.model.Ranking;
 import oit.is.z0553.kaizi.typingskill.service.Vocabsync;
-import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
 
 import java.util.ArrayList;
 
@@ -46,7 +45,7 @@ public class SampleController {
     Random rad = new Random();
     int mistake = 0;
     int point = 0;
-    String spell = vocabmapper.selectById(rad.nextInt(250));
+    String spell = vocabmapper.selectRadId(rad.nextInt(250));
     model.addAttribute("spell", spell);
     model.addAttribute("miss", mistake);
     model.addAttribute("score", point);
@@ -81,7 +80,7 @@ public class SampleController {
       }
     }
 
-    String spell = vocabmapper.selectById(rad.nextInt(
+    String spell = vocabmapper.selectRadId(rad.nextInt(
         250));
     model.addAttribute("spell", spell);
     model.addAttribute("miss", mistake);
@@ -112,33 +111,11 @@ public class SampleController {
       model.addAttribute("rank", rank);
       return "score.html";
     }
-    String spell = vocabmapper.selectById(rad.nextInt(250));
+    String spell = vocabmapper.selectRadId(rad.nextInt(250));
     model.addAttribute("spell", spell);
     model.addAttribute("miss", mistake);
     model.addAttribute("score", score);
     return "single.html";
   }
 
-  @GetMapping("/changedb")
-  public String changedb(ModelMap model) {
-    final ArrayList<Vocab> vocablist = vocabsync.syncShowVocabList();
-    model.addAttribute("vocab", vocablist);
-    return "multi.html";
-  }
-
-  @GetMapping("/deletevoc")
-  @Transactional
-  public String deletevoc(@RequestParam Integer id, ModelMap model) {
-    final ArrayList<Vocab> vocablist = vocabsync.syncShowVocabList();
-    model.addAttribute("vocab", vocablist);
-
-    return "multi.html";
-  }
-
-  @GetMapping("/sync")
-  public SseEmitter sync() {
-    final SseEmitter sseEmitter = new SseEmitter();
-    this.vocabsync.asyncShowVocabList(sseEmitter);
-    return sseEmitter;
-  }
 }

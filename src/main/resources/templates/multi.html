@@ -31,7 +31,7 @@
   </h1>
   <a href="/logout">ログアウト</a>
 
-  <h2>Online Fruits Shop</h2>
+  <h2>出題単語編集</h2>
 
   <div>
     <table border="1">
@@ -41,16 +41,20 @@
         <th>処理</th>
       </thead>
       <tbody id="vocab_list">
-        <span th:if="${vocab}">
+        <span th:if="${Vocabadd}">
           <!--クエリパラメータでIDを渡して購入処理を実行する-->
-          <tr th:each="vocab,stat:${vocablist}">
+          <tr th:each="vocab,stat:${Vocabadd}">
             <td>[[${stat.index}]]</td>
-            <td>[[${vocab.Vocab}]]</td>
-            <td><a th:href="@{/deletevoc(id=${vocab.id})}">削除</a></td>
+            <td>[[${vocab.vocab}]]</td>
+            <td><a th:href="@{/edit/delete(id=${vocab.id})}">削除</a></td>
           </tr>
         </span>
       </tbody>
     </table>
+  </div>
+  <div th:if="${VocabDelete}">
+    [[${VocabDelete.vocab}]]を消去しました
+    <td><a th:href="@{/edit/set}">編集</a></td>
   </div>
 
 </body>

@@ -3,10 +3,12 @@ INSERT INTO users (userName) VALUES ('シェム');
 INSERT INTO users (userName) VALUES ('タカハシ');
 INSERT INTO users (userName) VALUES ('ヨシイ');
 
-INSERT INTO ranking (name, score) VALUES ('イケダ','0');
-INSERT INTO ranking (name, score) VALUES ('シェム','0');
-INSERT INTO ranking (name, score) VALUES ('タカハシ','0');
-INSERT INTO ranking (name, score) VALUES ('ヨシイ','0');
+INSERT INTO ranking (name, score) VALUES ('イケダ','5');
+INSERT INTO ranking (name, score) VALUES ('シェム','7');
+INSERT INTO ranking (name, score) VALUES ('タカハシ','6');
+INSERT INTO ranking (name, score) VALUES ('ヨシイ','5');
+
+INSERT INTO multi (user1, user2, score1, score2) VALUES (2, 1,'0','0');
 
 INSERT INTO vocabulary (vocab) VALUES ('survey');
 INSERT INTO vocabulary (vocab) VALUES ('interview');

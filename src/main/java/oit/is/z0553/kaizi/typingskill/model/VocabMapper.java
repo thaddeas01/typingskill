@@ -11,14 +11,17 @@ import org.apache.ibatis.annotations.Select;
 @Mapper
 public interface VocabMapper {
 
+  @Select("SELECT ID, vocab from vocabulary where id = #{id}")
+  Vocab selectById(int id);
+
   @Select("SELECT vocab from vocabulary where id = #{id}")
-  String selectById(int id);
+  String selectRadId(int id);
 
   @Insert("INSERT INTO ranking (userName,score) VALUES (#{userName},#{score});")
   @Options(useGeneratedKeys = true, keyColumn = "id", keyProperty = "id")
   void insertRank(Vocab vocab);
 
-  @Select("SELECT ID, NAME FROM vocabulary")
+  @Select("SELECT ID, vocab FROM vocabulary")
   ArrayList<Vocab> selectAllVocab();
 
   @Delete("DELETE FROM vocabulary WHERE ID =#{id}")
