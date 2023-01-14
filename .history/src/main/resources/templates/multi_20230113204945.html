@@ -1,0 +1,66 @@
+<head>
+  <title>Game Application by Pentagon</title>
+  <script>
+    window.onload = function () {
+      var sse = new EventSource('/sync');
+      sse.onmessage = function (event) {
+        //console.log("sse.onmessage")
+        console.log(event.data);
+        var vocab_list = JSON.parse(event.data);//JSONオブジェクトとしてparse
+        var vocab_table = "";
+        // DBに残っているフルーツのリストがJSONオブジェクトとして得られるので，htmlを作成し，tbodyの中身毎入れ替える
+        for (var i = 1; i < vocab_list.length; i++) {
+          var bgn_tr = "<tr>";
+          var end_tr = "</tr>";
+          var idx = "<td>" + i + "</td>";
+          var f_name = "<td>" + vocab_list[i].name + "</td>";
+          var f_proc = "<td>" + "<a href='/deletevoc?id=" + vocab_list[i].id + "'>削除</a>" + "</td>"
+          vocab_table = vocab_table + bgn_tr + idx + f_name + f_proc + end_tr;
+        }
+        console.log(vocab_table);
+        var tbody = document.getElementById("vocab_list");
+        tbody.innerHTML = vocab_table;//idがfruits_listのtbodyのHTMLを差し替える
+
+      }
+    }
+  </script>
+</head>
+
+<body>
+  <h1>Authorized! <span sec:authentication="name"></span>
+  </h1>
+  <a href="/logout">ログアウト</a>
+
+  <h2>出題単語編集</h2>
+
+  <div>
+    <table border="1">
+      <thead>
+        <th>ID</th>
+        <th>Vocabulary</th>
+        <th>処理</th>
+      </thead>
+      <tbody id="vocab_list">
+        <span th:if="${Vocabadd}">
+          <!--クエリパラメータでIDを渡して購入処理を実行する-->
+          <tr th:each="vocab,stat:${Vocabadd}">
+            <td>[[${stat.index}+1]]</td>
+            <td>[[${vocab.vocab}]]</td>
+            <td><a th:href="@{/edit/delete(id=${vocab.id})}">削除</a></td>
+          </tr>
+        </span>
+      </tbody>
+    </table>
+  </div>
+  <form th:action="/addvoc" method="post">
+    <input type="text" name="answer" id="firstinput">
+    <input type="submit" name="add">
+  </form>
+  <div th:if="${VocabDelete}">
+    [[${VocabDelete.vocab}]]を消去しました
+    <td><a th:href="@{/edit/set}">編集</a></td>
+  </div>
+
+</body>
+
+</html>

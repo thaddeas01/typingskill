@@ -10,7 +10,7 @@ import org.apache.ibatis.annotations.Select;
 @Mapper
 public interface RankingMapper {
 
-  @Select("SELECT ID, NAME, SCORE FROM RANKING order by SCORE desc")
+  @Select("SELECT ID, NAME, SCORE FROM RANKING order by SCORE desc limit 10")
   ArrayList<Ranking> selectAllRanking();
 
   @Select("SELECT vocab from vocabulary where id = #{id}")
@@ -20,4 +20,9 @@ public interface RankingMapper {
   @Options(useGeneratedKeys = true, keyColumn = "id", keyProperty = "id")
   void insertRank(Ranking addrank);
 
+  @Select("SELECT count(id) from ranking where name = #{name}")
+  Integer getTimeplayed(String name);
+
+  @Select("SELECT max(score) from ranking where name = #{name}")
+  Integer getHighscore(String name);
 }

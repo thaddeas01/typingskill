@@ -1,12 +1,9 @@
 package oit.is.z0553.kaizi.typingskill.controller;
 
-import java.util.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import java.security.Principal;
@@ -16,13 +13,10 @@ import oit.is.z0553.kaizi.typingskill.model.RankingMapper;
 import oit.is.z0553.kaizi.typingskill.model.Ranking;
 import oit.is.z0553.kaizi.typingskill.service.Vocabsync;
 
-import java.util.ArrayList;
-
-import java.util.Random;
+import java.util.*;
 
 @Controller
 public class SampleController {
-
   @Autowired
   RankingMapper rMapper;
 
@@ -45,7 +39,8 @@ public class SampleController {
     Random rad = new Random();
     int mistake = 0;
     int point = 0;
-    String spell = vocabmapper.selectRadId(rad.nextInt(250));
+    int maxdata = vocabmapper.selectMaxId();
+    String spell = vocabmapper.selectRadId(rad.nextInt(maxdata));
     model.addAttribute("spell", spell);
     model.addAttribute("miss", mistake);
     model.addAttribute("score", point);
@@ -58,9 +53,67 @@ public class SampleController {
     Random rad = new Random();
     int mistake = miss;
     int point = score;
+    int maxdata = vocabmapper.selectMaxId();
     String username = prin.getName();
+    ArrayList<Integer> mix = new ArrayList<Integer>();
+    String x = "";
+    String spell = vocabmapper.selectRadId(rad.nextInt(
+        maxdata));
     if (prob.equals(answer)) {
       point++;
+      if (score > 15) {
+        for (int j = 0; j < 5; j++) {
+          mix.add(rad.nextInt(spell.length()));
+        }
+        for (int i = 0; i < spell.length(); i++) {
+          char ch = spell.charAt(i);
+          if (mix.contains(i)) {
+            if (Character.isLowerCase(ch))
+              x += Character.toUpperCase(ch);
+          } else {
+            x += ch;
+          }
+        }
+        model.addAttribute("spell", x);
+        model.addAttribute("miss", mistake);
+        model.addAttribute("score", point);
+        mix.clear();
+        return "single.html";
+      } else if (score >= 10) {
+        for (int j = 0; j < 3; j++) {
+          mix.add(rad.nextInt(spell.length()));
+        }
+        for (int i = 0; i < spell.length(); i++) {
+          char ch = spell.charAt(i);
+          if (mix.contains(i)) {
+            if (Character.isLowerCase(ch))
+              x += Character.toUpperCase(ch);
+          } else {
+            x += ch;
+          }
+        }
+        model.addAttribute("spell", x);
+        model.addAttribute("miss", mistake);
+        model.addAttribute("score", point);
+        mix.clear();
+        return "single.html";
+      } else if (score >= 5) {
+        mix.add(rad.nextInt(spell.length()));
+        for (int i = 0; i < spell.length(); i++) {
+          char ch = spell.charAt(i);
+          if (mix.contains(i)) {
+            if (Character.isLowerCase(ch))
+              x += Character.toUpperCase(ch);
+          } else {
+            x += ch;
+          }
+        }
+        model.addAttribute("spell", x);
+        model.addAttribute("miss", mistake);
+        model.addAttribute("score", point);
+        mix.clear();
+        return "single.html";
+      }
     } else {
       mistake++;
       if (mistake >= 3) {
@@ -79,13 +132,10 @@ public class SampleController {
         return "score.html";
       }
     }
-
-    String spell = vocabmapper.selectRadId(rad.nextInt(
-        250));
     model.addAttribute("spell", spell);
     model.addAttribute("miss", mistake);
     model.addAttribute("score", point);
-    return ("single.html");
+    return "single.html";
   }
 
   @GetMapping("/timeout")
@@ -95,6 +145,10 @@ public class SampleController {
     int mistake = miss;
     int point = score;
     String username = prin.getName();
+    String x = "";
+    int maxdata = vocabmapper.selectMaxId();
+    String spell = vocabmapper.selectRadId(rad.nextInt(maxdata));
+    ArrayList<Integer> mix = new ArrayList<Integer>();
     mistake++;
     if (mistake >= 3) {
       Ranking addrank = new Ranking();
@@ -111,11 +165,82 @@ public class SampleController {
       model.addAttribute("rank", rank);
       return "score.html";
     }
-    String spell = vocabmapper.selectRadId(rad.nextInt(250));
+    if (score > 15) {
+      for (int j = 0; j < 5; j++) {
+        mix.add(rad.nextInt(spell.length()));
+      }
+      for (int i = 0; i < spell.length(); i++) {
+        char ch = spell.charAt(i);
+        if (mix.contains(i)) {
+          if (Character.isLowerCase(ch))
+            x += Character.toUpperCase(ch);
+        } else {
+          x += ch;
+        }
+      }
+      model.addAttribute("spell", x);
+      model.addAttribute("miss", mistake);
+      model.addAttribute("score", point);
+      mix.clear();
+      return "single.html";
+    } else if (score >= 10) {
+      for (int j = 0; j < 3; j++) {
+        mix.add(rad.nextInt(spell.length()));
+      }
+      for (int i = 0; i < spell.length(); i++) {
+        char ch = spell.charAt(i);
+        if (mix.contains(i)) {
+          if (Character.isLowerCase(ch))
+            x += Character.toUpperCase(ch);
+        } else {
+          x += ch;
+        }
+      }
+      model.addAttribute("spell", x);
+      model.addAttribute("miss", mistake);
+      model.addAttribute("score", point);
+      mix.clear();
+      return "single.html";
+    } else if (score >= 5) {
+      mix.add(rad.nextInt(spell.length()));
+      for (int i = 0; i < spell.length(); i++) {
+        char ch = spell.charAt(i);
+        if (mix.contains(i)) {
+          if (Character.isLowerCase(ch))
+            x += Character.toUpperCase(ch);
+        } else {
+          x += ch;
+        }
+      }
+      model.addAttribute("spell", x);
+      model.addAttribute("miss", mistake);
+      model.addAttribute("score", point);
+      mix.clear();
+      return "single.html";
+    }
     model.addAttribute("spell", spell);
     model.addAttribute("miss", mistake);
-    model.addAttribute("score", score);
+    model.addAttribute("score", point);
     return "single.html";
   }
 
+  @GetMapping("/showdata")
+  public String showdata(@RequestParam String name, @RequestParam int score, ModelMap model) {
+    int timesplay = rMapper.getTimeplayed(name);
+    int highscore = rMapper.getHighscore(name);
+
+    model.addAttribute("username", name);
+    model.addAttribute("timeplay", timesplay);
+    model.addAttribute("highscore", highscore);
+    model.addAttribute("score", score);
+    return "score.html";
+  }
+
+  @GetMapping("/ranking")
+  public String showdata(@RequestParam int score, ModelMap model) {
+    ArrayList<Ranking> rank = rMapper.selectAllRanking();
+    model.addAttribute("rank", rank);
+    model.addAttribute("score", score);
+    return "score.html";
+  }
 }

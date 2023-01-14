@@ -1,26 +1,38 @@
 <head>
   <title>Game Application by Pentagon</title>
   <style>
+    a:visited {
+      color: blue;
+    }
 
+    a:hover {
+      color: red;
+    }
   </style>
 </head>
 
 <body>
-  <h1> [[${user}]] Score : [[${score}]]</h1>
+  <h1>Score : [[${score}]]</h1>
   <br>
-  <div>
+  <div th:if="${username}">
+    <p>Username = [[${username}]]</p>
+    <p>Time Played = [[${timeplay}]]</p>
+    <p>Highest score = [[${highscore}]]</p>
+    <p><a th:href="@{/ranking(score=${score})}">Back To Ranking List</a></p>
+  </div>
+  <div th:if="${rank}">
     <table border="1">
       <thead>
-        <th>順位</th>
-        <th>名前</th>
-        <th>スコア</th>
+        <th width="10%">順位</th>
+        <th width="75%">名前</th>
+        <th width="20%">スコア</th>
       </thead>
       <tbody id="ranking_list">
         <span th:if="${rank}">
           <!--クエリパラメータでIDを渡して購入処理を実行する-->
           <tr th:each="ranking,stat:${rank}">
             <td>[[${stat.index}+1]]</td>
-            <td>[[${ranking.name}]]</td>
+            <td><a th:href="@{/showdata(name=${ranking.name},score=${score})}">[[${ranking.name}]] </a></td>
             <td>[[${ranking.score}]]</td>
           </tr>
         </span>
@@ -28,5 +40,6 @@
     </table>
   </div>
   <br>
+  <a href="/single"><button>Try Again</button></a>
   <a href="/start"><button>Back To Main Menu</button></a>
 </body>

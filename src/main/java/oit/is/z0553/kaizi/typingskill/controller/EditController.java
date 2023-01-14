@@ -7,12 +7,16 @@ import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import java.security.Principal;
 import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
 
 import oit.is.z0553.kaizi.typingskill.model.VocabMapper;
 import oit.is.z0553.kaizi.typingskill.model.Vocab;
+import oit.is.z0553.kaizi.typingskill.model.Room;
 import oit.is.z0553.kaizi.typingskill.service.Vocabsync;
 
 /**
@@ -29,10 +33,16 @@ public class EditController {
   @Autowired
   Vocabsync vocabsync;
 
+  @Autowired
+  private Room room;
+
   @GetMapping("/set")
-  public String set(ModelMap model) {
+  public String set(ModelMap model, Principal prin) {
     final ArrayList<Vocab> Vocabadd = vocabsync.syncShowVocabList();
     model.addAttribute("Vocabadd", Vocabadd);
+    String loginUser = prin.getName();
+    this.room.addUser(loginUser);
+    model.addAttribute("room", this.room);
     return "multi.html";
   }
 
@@ -45,6 +55,20 @@ public class EditController {
     final ArrayList<Vocab> Vocabadd = vocabsync.syncShowVocabList();
     model.addAttribute("VocabAdd", Vocabadd);
 
+    return "multi.html";
+
+  }
+
+  @PostMapping("/addvoc")
+  @Transactional
+  public String addvoc(@RequestParam String vocab, ModelMap model) {
+    Vocab plus1 = new Vocab();
+    plus1.setVocab(vocab);
+    final Vocab addvoc = this.vocabsync.syncAddVocabs(plus1);
+    model.addAttribute("AddVocab", addvoc);
+
+    final ArrayList<Vocab> Vocabadd = vocabsync.syncShowVocabList();
+    model.addAttribute("VocabAdd", Vocabadd);
     return "multi.html";
   }
 
