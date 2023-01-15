@@ -1,0 +1,77 @@
+<head>
+  <title>Game Application by Pentagon</title>
+  <script>
+    window.onload = function () {
+      var sse = new EventSource('/sync');
+      sse.onmessage = function (event) {
+        //console.log("sse.onmessage")
+        console.log(event.data);
+        var vocab_list = JSON.parse(event.data);//JSONオブジェクトとしてparse
+        var vocab_table = "";
+        // DBに残っているフルーツのリストがJSONオブジェクトとして得られるので，htmlを作成し，tbodyの中身毎入れ替える
+        for (var i = 1; i < vocab_list.length; i++) {
+          var bgn_tr = "<tr>";
+          var end_tr = "</tr>";
+          var idx = "<td>" + i + "</td>";
+          var f_name = "<td>" + vocab_list[i].name + "</td>";
+          var f_proc = "<td>" + "<a href='/deletevoc?id=" + vocab_list[i].id + "'>削除</a>" + "</td>"
+          vocab_table = vocab_table + bgn_tr + idx + f_name + f_proc + end_tr;
+        }
+        console.log(vocab_table);
+        var tbody = document.getElementById("vocab_list");
+        tbody.innerHTML = vocab_table;//idがfruits_listのtbodyのHTMLを差し替える
+
+      }
+    }
+  </script>
+</head>
+<style>
+  a:hover{
+    background-color :red;
+  }
+  a:visited{
+    color:blue;
+  }
+</style>
+<body>
+  <h1>Authorized! <span sec:authentication="name"></span>
+  </h1>
+  <a href="/logout">ログアウト</a>
+  <a href="/start">Back To Main Menu</a>
+
+  <h2>出題単語編集</h2>
+  <form action="/edit/addvoc" method="post">
+    <input type="text" name="vocab">
+    <button type="submit">ADD VOCAB</button>
+  </form>
+  <div>
+    <table border="1">
+      <thead width="100%">
+        <th width="10%">ID</th>
+        <th width="75%">Vocabulary</th>
+        <th width="45%">処理</th>
+      </thead>
+      <tbody id="vocab_list">
+        <span th:if="${Vocabadd}">
+          <!--クエリパラメータでIDを渡して購入処理を実行する-->
+          <tr th:each="vocab,stat:${Vocabadd}">
+            <td>[[${stat.index}+1]]</td>
+            <td>[[${vocab.vocab}]]</td>
+            <td><a th:href="@{/edit/delete(id=${vocab.id})}">削除</a></td>
+          </tr>
+        </span>
+      </tbody>
+    </table>
+  </div>
+  <div th:if="${VocabDelete}">
+    [[${VocabDelete.vocab}]]を消去しました
+    <td><a th:href="@{/edit/set}">編集</a></td>
+  </div>
+  <div th:if="${AddVocab}">
+    [[${AddVocab.vocab}]]を追加しました
+    <td><a th:href="@{/edit/set}">編集</a></td>
+  </div>
+
+</body>
+
+</html>

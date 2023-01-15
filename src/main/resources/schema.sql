@@ -12,3 +12,12 @@ CREATE TABLE ranking (
     name VARCHAR NOT NULL,
     score INT NOT NULL
 );
+
+CREATE TABLE multi (
+    id IDENTITY PRIMARY KEY,
+    user1 INT NOT NULL,
+    user2 INT NOT NULL,
+    score1 VARCHAR,
+    score2 VARCHAR,
+    isActive BOOLEAN
+);

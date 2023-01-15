@@ -5,14 +5,81 @@
 <body>
   <div id="app"></div>
 
-  <p> [[${spell}]]</p>
-  <p> [[${miss}]]</p>
-  <p> [[${score}]]</p>
-  <form th:action="@{/hantei(prob=${spell},miss=${miss},score=${score})}" method="post">
+  <p class="word1"><b> [[${spell}]] </b></p>
+  <p class="word2"><b> MISS : [[${miss}]] </b></p>
+  <p class="word3"><b> SCORE : [[${score}]] </b></p>
+  <form th:action="@{/hantei(prob=${spell},miss=${miss},score=${score})}" method="post" class="input">
     <input type="text" name="answer" id="firstinput">
   </form>
+
+  <audio controls autoplay>
+    <source src="clock.mp3" type="audio/mpeg">
+  </audio>
 </body>
+
 <style>
+  body {
+    background-image: url('gamebacks.png');
+    background-repeat: no-repeat;
+    background-size: cover;
+  }
+
+  .word1 {
+    font-size: 7em;
+    width: 400px;
+    height: 100px;
+    font-family: "garamond", serif;
+    position: relative;
+    text-align: center;
+    top: 20%;
+    left: 40%;
+    display: inline-block;
+    margin-top: 1rem;
+    color: red;
+  }
+
+  .word2 {
+    font-size: 3em;
+    width: 400px;
+    height: 100px;
+    font-family: "garamond", serif;
+    position: relative;
+    text-align: center;
+    top: 30%;
+    left: 18.5%;
+    display: inline-block;
+    margin-top: 1rem;
+  }
+
+  .word3 {
+    font-size: 3em;
+    width: 400px;
+    height: 100px;
+    font-family: "garamond", serif;
+    position: relative;
+    text-align: center;
+    top: 40%;
+    left: -3.5%;
+    display: inline-block;
+    margin-top: 1rem;
+  }
+
+  input[type=text] {
+    height: 10%;
+  }
+
+  .input {
+    width: 400px;
+    height: 400px;
+    font-family: "garamond", serif;
+    position: relative;
+    text-align: center;
+    top: 50%;
+    left: -25%;
+    display: inline-block;
+    margin-top: 1rem;
+  }
+
   .base-timer {
     position: relative;
     width: 150px;
