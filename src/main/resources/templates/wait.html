@@ -1,57 +1,8 @@
-<!DOCTYPE html>
-
-<html>
-
-<head>
-  <meta charset="utf-8">
-  <title>jankengame</title>
-
-  <script>
-    window.onload = function () {
-        var sse = new EventSource('/sse');
-        sse.onmessage = function () {
-          console.log(event.data);
-          var match = JSON.parse(event.data);
-          var matchHtml = "";
-          var bgn_div = "<div>";
-          var end_div = "</div>";
-          var title = "<h2>" + "スコア" + "</h2>";
-          var tg = "Match: ";
-          var bgn_tr = "<tr>";
-          var end_tr = "</tr>";
-          var id = "<td>" + "id:" + match.id + " " + "</td>";
-          var user1 = "<td>" + "user1:" + match.user1 + " " + "</td>";
-          var user2 = "<td>" + "user2:" + match.user2 + " " + "</td>";
-          var user1Hand = "<td>" + "user1の手:" + match.user1Hand + " " + "</td>";
-          var user2Hand = "<td>" + "user2の手:" + match.user2Hand + "</td>";
-          var back = "<a href=" + "/janken/" + match.id + ">" + "もどる" + "</a>";
-          matchHtml = bgn_div + title + bgn_div + tg + bgn_tr + id + user1 + user2 + user1Hand + user2Hand + end_tr + end_div + bgn_div + back + end_div + end_div;
-          console.log(matchHtml);
-          var tbody = document.getElementById("match");
-          tbody.innerHTML = matchHtml;
-        }
-      }
-  </script>
-</head>
-
-<body>
-  <h1>相手を待ってます</h1>
-
-  <div th:if="${room}">
-    DI利用
-    <ul>
-      <!--roomオブジェクトのroomNoというフィールドを指定している-->
-      <li>RoomNo:[[${room.roomNo}]]</li>
-      <!--eachは所謂for each．この場合roomオブジェクトのusersフィールドにあるすべてのデータを一通り表示する
-        thが指定されているので[]が不要になる-->
-      <li th:each="user : ${room.users}">[[${user}]]</li>
-    </ul>
-  </div>
-  <div id="app"></div>
-
-  <p id="match"></p>
-
-
-</body>
-
-</html>
+<h1>出題単語編集</h1>
+<form th:action="@{/edit/change1(id=${ChangeByID})}" method="post">
+  <input type="text" name="into">
+  <button type="submit">Change</button>
+  <button type="reset" value="Reset">Clear</button>
+</form>
+<a href="/logout">ログアウト</a>
+<a href="/start">Back To Main Menu</a>

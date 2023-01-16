@@ -14,6 +14,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import java.security.Principal;
 import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
 
+import com.fasterxml.jackson.annotation.JsonCreator.Mode;
+
 import oit.is.z0553.kaizi.typingskill.model.VocabMapper;
 import oit.is.z0553.kaizi.typingskill.model.Vocab;
 import oit.is.z0553.kaizi.typingskill.model.Room;
@@ -66,6 +68,19 @@ public class EditController {
     plus1.setVocab(vocab);
     final Vocab addvoc = this.vocabsync.syncAddVocabs(plus1);
     model.addAttribute("AddVocab", addvoc);
+
+    final ArrayList<Vocab> Vocabadd = vocabsync.syncShowVocabList();
+    model.addAttribute("VocabAdd", Vocabadd);
+    return "multi.html";
+  }
+
+  @PostMapping("/change1")
+  @Transactional
+  public String change1(@RequestParam Integer id, @RequestParam String into, ModelMap model) {
+    Vocab before = fMapper.selectById(id);
+    model.addAttribute("Before", before);
+    final Vocab changevoc = this.vocabsync.syncChangeVocab(id, into);
+    model.addAttribute("ChangeVocab", changevoc);
 
     final ArrayList<Vocab> Vocabadd = vocabsync.syncShowVocabList();
     model.addAttribute("VocabAdd", Vocabadd);

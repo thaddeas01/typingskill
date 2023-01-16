@@ -7,6 +7,7 @@ import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Options;
 import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.Update;
 
 @Mapper
 public interface VocabMapper {
@@ -33,4 +34,8 @@ public interface VocabMapper {
 
   @Delete("DELETE FROM vocabulary WHERE ID =#{id}")
   boolean deleteById(int id);
+
+  @Update("UPDATE vocabulary SET vocab = #{into} where ID = #{id}")
+  void changeByID(int id, String into);
+
 }

@@ -40,7 +40,7 @@ public class SampleController {
     int mistake = 0;
     int point = 0;
     int maxdata = vocabmapper.selectMaxId();
-    String spell = vocabmapper.selectRadId(rad.nextInt(maxdata));
+    String spell = vocabmapper.selectRadId(rad.nextInt(maxdata) + 1);
     model.addAttribute("spell", spell);
     model.addAttribute("miss", mistake);
     model.addAttribute("score", point);
@@ -58,7 +58,7 @@ public class SampleController {
     ArrayList<Integer> mix = new ArrayList<Integer>();
     String x = "";
     String spell = vocabmapper.selectRadId(rad.nextInt(
-        maxdata));
+        maxdata) + 1);
     if (prob.equals(answer)) {
       point++;
       if (score > 15) {
@@ -147,7 +147,7 @@ public class SampleController {
     String username = prin.getName();
     String x = "";
     int maxdata = vocabmapper.selectMaxId();
-    String spell = vocabmapper.selectRadId(rad.nextInt(maxdata));
+    String spell = vocabmapper.selectRadId(rad.nextInt(maxdata) + 1);
     ArrayList<Integer> mix = new ArrayList<Integer>();
     mistake++;
     if (mistake >= 3) {
@@ -242,5 +242,11 @@ public class SampleController {
     model.addAttribute("rank", rank);
     model.addAttribute("score", score);
     return "score.html";
+  }
+
+  @GetMapping("/change")
+  public String change(@RequestParam Integer id, ModelMap model, Principal prin) {
+    model.addAttribute("ChangeByID", id);
+    return "wait.html";
   }
 }
