@@ -14,7 +14,6 @@ import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
 import oit.is.z0553.kaizi.typingskill.model.VocabMapper;
 import oit.is.z0553.kaizi.typingskill.model.Vocab;
 
-
 @Service
 public class Vocabsync {
   boolean dbUpdated = false;
@@ -36,9 +35,21 @@ public class Vocabsync {
 
     return vocab;
   }
-  
+
   @Transactional
-  public Vocab syncAddVocabs(Vocab vocab){
+  public Vocab syncChangeVocab(Integer id, String into) {
+
+    vMapper.changeByID(id, into);
+
+    Vocab vocab = vMapper.selectById(id);
+    // 非同期でDB更新したことを共有する際に利用する
+    this.dbUpdated = true;
+
+    return vocab;
+  }
+
+  @Transactional
+  public Vocab syncAddVocabs(Vocab vocab) {
     try {
       vMapper.addVocabs(vocab);
     } catch (RuntimeException e) {
@@ -53,7 +64,6 @@ public class Vocabsync {
   public ArrayList<Vocab> syncShowVocabList() {
     return vMapper.selectAllVocab();
   }
-
 
   @Async
   public void asyncShowVocabList(SseEmitter emitter) {

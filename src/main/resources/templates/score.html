@@ -1,12 +1,34 @@
 <head>
   <title>Game Application by Pentagon</title>
   <style>
+    .word {
+      color: white;
+    }
+
     a:visited {
+      color: blue;
+    }
+
+    a:link {
       color: blue;
     }
 
     a:hover {
       color: red;
+    }
+
+    body {
+      background-image: url('rankingback.jpg');
+      background-repeat: no-repeat;
+      background-size: cover;
+    }
+
+    thead {
+      background-color: #214aa4;
+    }
+
+    tbody {
+      background-color: #D6EEEE;
     }
   </style>
 </head>
@@ -15,10 +37,10 @@
   <h1>Score : [[${score}]]</h1>
   <br>
   <div th:if="${username}">
-    <p>Username = [[${username}]]</p>
-    <p>Time Played = [[${timeplay}]]</p>
-    <p>Highest score = [[${highscore}]]</p>
-    <p><a th:href="@{/ranking(score=${score})}">Back To Ranking List</a></p>
+    <p class="word">Username = [[${username}]]</p>
+    <p class="word">Time Played = [[${timeplay}]]</p>
+    <p class="word">Highest score = [[${highscore}]]</p>
+    <p><a th:href="@{/ranking(score=${score})}" class="word">Back To Ranking List</a></p>
   </div>
   <div th:if="${rank}">
     <table border="1">
@@ -31,9 +53,9 @@
         <span th:if="${rank}">
           <!--クエリパラメータでIDを渡して購入処理を実行する-->
           <tr th:each="ranking,stat:${rank}">
-            <td>[[${stat.index}+1]]</td>
-            <td><a th:href="@{/showdata(name=${ranking.name},score=${score})}">[[${ranking.name}]] </a></td>
-            <td>[[${ranking.score}]]</td>
+            <td height="20">[[${stat.index}+1]]</td>
+            <td height="20"><a th:href="@{/showdata(name=${ranking.name},score=${score})}">[[${ranking.name}]] </a></td>
+            <td height="20">[[${ranking.score}]]</td>
           </tr>
         </span>
       </tbody>
