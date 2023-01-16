@@ -47,24 +47,30 @@
   </div>
 
   <h2>出題単語編集</h2>
-  <form action="/edit/addvoc" method="post">
-    <input type="text" name="vocab">
-    <button type="submit">ADD VOCAB</button>
-  </form>
-  <div>
-    <table border="1">
-      <thead width="100%">
-        <th width="10%">ID</th>
-        <th width="75%">Vocabulary</th>
-        <th width="45%">処理</th>
+  <div th:if="${room}">
+    <form action="/edit/addvoc" method="post">
+      <input type="text" name="vocab">
+      <button type="submit">ADD VOCAB</button>
+    </form>
+
+    <table border="1" width="100%">
+      <thead>
+        <th width="5%" rowspan="2" align="center">ID</th>
+        <th width="60%" rowspan="2" align="center">Vocabulary</th>
+        <th width="40%" colspan="2" align="center">処理</th>
+        <tr>
+          <td align="center">Delete</td>
+          <td align="center">Change</td>
+        </tr>
       </thead>
       <tbody id="vocab_list">
         <span th:if="${Vocabadd}">
           <!--クエリパラメータでIDを渡して購入処理を実行する-->
           <tr th:each="vocab,stat:${Vocabadd}">
-            <td>[[${stat.index}+1]]</td>
-            <td>[[${vocab.vocab}]]</td>
-            <td><a th:href="@{/edit/delete(id=${vocab.id})}">削除</a></td>
+            <td align="center">[[${stat.index}+1]]</td>
+            <td align="center">[[${vocab.vocab}]]</td>
+            <td width="20%" align="center"><a th:href="@{/edit/delete(id=${vocab.id})}">削除</a></td>
+            <td width="20%" align="center"><a th:href="@{/change(id=${vocab.id})}">編集</a></td>
           </tr>
         </span>
       </tbody>
@@ -76,6 +82,10 @@
   </div>
   <div th:if="${AddVocab}">
     [[${AddVocab.vocab}]]を追加しました
+    <td><a th:href="@{/edit/set}">編集</a></td>
+  </div>
+  <div th:if="${ChangeVocab}">
+    [[${Before.vocab}]]を[[${ChangeVocab.vocab}]]に変更しました
     <td><a th:href="@{/edit/set}">編集</a></td>
   </div>
   <a href="/edit/set">Refresh</a>
