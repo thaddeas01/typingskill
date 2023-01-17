@@ -3,48 +3,90 @@
 本アプリはゲームを楽しみながら自分のタイピングスキルを向上することができます。
 
 ## Setup Manual
-サーバのアクセス
-IP: 150.89.233.205:80
-ユーザ名:isdev22
-パスワード: isDev22?205
 
-isdev-bash....exe を起動して下記の ssh コマンドでアクセスします.
+ 
+#### １．	サーバへのアクセス
 
+まずisdev-bash-……-64.exeを起動してください。
+そこから用意された仮想サーバにあるアクセスするため、以下の手順に従ってください。
+
+最初に、
 ```
 $ ssh isdev22@150.89.233.205
 ```
+と入力してください。＠の後ろに続く［150.89.233.205］がアプリケーションのIPアドレスになります。
+入力後、以下の図１のようにパスワードの入力を求められるので
+isDev22?205
+と入力してください（パスワードは表示されません）。
 
-その後パスワードが求められるので,「isDev22?205」と入力してください.(パスワードは
-入力しても表示されません)
+![](https://user-images.githubusercontent.com/94339401/212812593-12b02eed-b692-4012-9dc9-7652031452c2.png)
+
+図1. パスワードの入力
+
+![](https://user-images.githubusercontent.com/94339401/212812599-b356b031-1dd0-4e13-ac02-549653c2e826.png)
+
+図2. ログイン成功
+
+ログインが成功すると図2のような画面が表示されます。
+次に、アプリケーションのダウンロードを行います。
+
+
+#### ２．	アプリケーションのダウンロード
+
+まずpwdコマンドで今いるディレクトリを確認してください。
+
+![](https://user-images.githubusercontent.com/94339401/212812601-c7b18b89-b683-46dd-9a02-51180177740d.png) 
+
+図3. pwdコマンド
+
+図３のように /home/isdev22 にいることが確認できたら、
+次にアプリケーションのダウンロード(クローン作製)を行います。
+以下のコードを入力してください。
 
 ```
-$isdev22@150.89.233.205's password:
+$ git clone git@github.com:thaddeas01/typingskill.git
 ```
 
-cd コマンドでホームディレクトリに移動し,git clone を行います.
+このURLはこのアプリケーションのGitHub(thaddeas01/typingskill: pentagon アプリ開発 (github.com))に記載されているCodeをクリックし、SSHを選択すればコピーできます(図４）。
+
+![](https://user-images.githubusercontent.com/94339401/212813178-a217bd7c-ef3f-482e-b088-714cf08f1fa4.png) 
+
+図４　GitHubページのCode
+
+以上でダウンロードが完了したので次はアプリケーションを起動します。
+
+#### ３．	アプリケーションの起動
+
+git cloneコマンドが完了したら、以下のようにcdコマンドでtypinngskillディレクトリを開いてください。
 
 ```
-$ cd
-$ git clonehttps://github.com/thaddeas01/typingskill
+$ cd typingskill
 ```
 
-その後,typingskill ディレクトリに移動し,pull します.
-
-```
-$ git pull origin main
-```
-
-typingskill ディレクトリで,gradlew を bash を利用して実行します.
+次に、gradlewコマンドをbashを利用してWebサーバを起動します。
+以下のコードを入力してください。
 
 ```
 $ bash ./gradlew
 ```
 
-プロジェクトの実行のために以下のコマンドを実行しましょう.
+ここまでで図５のように表示されているか確認してください。
 
-```
+![](https://user-images.githubusercontent.com/94339401/212813858-30dc7276-a4f9-48da-8d9d-29714f6a3a47.png)
+
+図５　gradlewの実行
+
+以下のようにbootrunを実行してください。
 $ bash ./gradlew bootrun
-```
+以下の図６のように表示されれば成功です。
+
+![](https://user-images.githubusercontent.com/94339401/212812605-1d24768d-e1c0-4c43-84b9-093055e26b15.png)
+
+図６　bootrunの実行
+
+bootrun実行後、「 http://150.89.233.205 」  にブラウザでアクセスしてください(Game Application by Pentagon)。
+以上です。
+
 
 ## User Manual
 ### ユーザマニュアル
@@ -60,7 +102,7 @@ $ bash ./gradlew bootrun
 
 <a id="anchor0"></a>
 #### 1.	タイトル画面
-「http://150.89.233.205」にアクセスすると，タイトル画面が表示される．「Start」ボタンをクリックすると，ログイン画面に遷移する．
+「 http://150.89.233.205 」 にアクセスすると，タイトル画面が表示される．「Start」ボタンをクリックすると，ログイン画面に遷移する．
 ![](https://user-images.githubusercontent.com/94339401/212807617-cb228cf2-24b0-4bb2-b67b-f7700d5bf22b.jpg)
 
 <a id="anchor1"></a>
