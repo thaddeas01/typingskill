@@ -103,6 +103,7 @@ bootrun実行後、「 http://150.89.233.205 」  にブラウザでアクセス
 <a id="anchor0"></a>
 #### 1.	タイトル画面
 「 http://150.89.233.205 」 にアクセスすると，タイトル画面が表示される．「Start」ボタンをクリックすると，ログイン画面に遷移する．
+
 ![](https://user-images.githubusercontent.com/94339401/212807617-cb228cf2-24b0-4bb2-b67b-f7700d5bf22b.jpg)
 
 <a id="anchor1"></a>
